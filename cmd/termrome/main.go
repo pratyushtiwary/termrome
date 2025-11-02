@@ -13,7 +13,7 @@ func main() {
 		panic("Please provide a valid filename")
 	}
 
-	var fileName string = os.Args[1]
+	var fileName = os.Args[1]
 
 	_, err := os.Stat(fileName)
 

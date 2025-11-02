@@ -114,7 +114,7 @@ func ParseHtml(inputString string) []Node {
 		if IsAnchorTagEnd(stateMachine, currChar) {
 			endingTagName := inputString[stateMachine.GetStateStartIdx():currCharIdx]
 			node := popTagStack()
-			var prevNode *ElementNode = nil
+			var prevNode *ElementNode
 
 			if node != nil {
 				node.HasEnding = node.Tag == endingTagName
@@ -143,7 +143,7 @@ func ParseHtml(inputString string) []Node {
 		if IsAttrStart(stateMachine, currChar) {
 			tagName := inputString[stateMachine.GetStateStartIdx():currCharIdx]
 			tagStack = append(tagStack, NewElementNode(tagName))
-			var nextState Token = ATTR
+			var nextState = ATTR
 
 			if currChar == ANCHOR_END.GetChar() {
 				nextState = CONTENT
@@ -183,7 +183,7 @@ func ParseHtml(inputString string) []Node {
 				Value:     "",
 			}
 
-			var nextState Token = ATTR_SEP
+			var nextState = ATTR_SEP
 
 			if currChar == ANCHOR_END.GetChar() {
 				nextState = CONTENT
@@ -258,7 +258,7 @@ func ParseHtml(inputString string) []Node {
 			}
 
 			stateMachine.SetQuotesState(' ', false)
-			var nextState Token = ATTR
+			var nextState = ATTR
 
 			if currChar == ANCHOR_END.GetChar() {
 				nextState = CONTENT
