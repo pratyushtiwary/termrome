@@ -3,7 +3,7 @@
 all: test build
 
 build:
-	go build -v ./...
+	go build ./...
 
 run:
 	go run ./... $(FILE)

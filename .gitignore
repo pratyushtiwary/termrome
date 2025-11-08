@@ -9,8 +9,6 @@
 
 # Dependency directories
 vendor/
-go.mod
-go.sum
 
 # Go build cache
 .cache/go-build/
