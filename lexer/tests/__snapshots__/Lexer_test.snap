@@ -1,0 +1,496 @@
+
+[TestBasicParseHtml/Empty_string - 1]
+[]lexer.Node{
+}
+---
+
+[TestBasicParseHtml/Single_tag,_without_attrs - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestBasicParseHtml/Single_tag,_with_attrs - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+            "abc":  {Value:"", IsPresent:true},
+            "test": {Value:"1", IsPresent:true},
+            "xyz":  {Value:"hello world", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestBasicParseHtml/Nested_tags,_without_attrs - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "h1",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestBasicParseHtml/Nested_tags,_with_attrs - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "h1",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                    "abc": {Value:"1", IsPresent:true},
+                    "pqr": {Value:"h1 test", IsPresent:true},
+                },
+                rwLock: sync.RWMutex{},
+            },
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+            "test": {Value:"hello world", IsPresent:true},
+            "xyz":  {Value:"", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/void_tag,_not_nested - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "img",
+        Children: {
+        },
+        IsKnownVoid: true,
+        HasEnding:   false,
+        data:        {
+            "disabled": {Value:"", IsPresent:true},
+            "src":      {Value:"https://example.com", IsPresent:true},
+            "width":    {Value:"200", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/void_tag,_nested - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "img",
+                Children: {
+                },
+                IsKnownVoid: true,
+                HasEnding:   false,
+                data:        {
+                    "disabled": {Value:"", IsPresent:true},
+                    "src":      {Value:"https://example.com", IsPresent:true},
+                    "width":    {Value:"200", IsPresent:true},
+                },
+                rwLock: sync.RWMutex{},
+            },
+            &lexer.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/user-defined_void_tag,_not_nested - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "xyz",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   false,
+        data:        {
+            "abc":  {Value:"1", IsPresent:true},
+            "pqr":  {Value:"hello world", IsPresent:true},
+            "test": {Value:"", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/user-defined_void_tag,_nested - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "xyz",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:" ", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "abc",
+                        Children: {
+                            &lexer.TextNode{Type:"TEXT", Content:"test", HasEnding:false},
+                        },
+                        IsKnownVoid: false,
+                        HasEnding:   false,
+                        data:        {
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                },
+                IsKnownVoid: false,
+                HasEnding:   false,
+                data:        {
+                    "abc":  {Value:"1", IsPresent:true},
+                    "pqr":  {Value:"hello world", IsPresent:true},
+                    "test": {Value:"", IsPresent:true},
+                },
+                rwLock: sync.RWMutex{},
+            },
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/without_root - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "b",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+    &lexer.TextNode{Type:"TEXT", Content:"test ", HasEnding:false},
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/dangling_< - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "p",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"Text ", HasEnding:false},
+            &lexer.TextNode{Type:"TEXT", Content:"<", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "b",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"bold", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/simple_html_file - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "html",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "head",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "meta",
+                        Children: {
+                        },
+                        IsKnownVoid: true,
+                        HasEnding:   false,
+                        data:        {
+                            "charset": {Value:"UTF-8", IsPresent:true},
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "meta",
+                        Children: {
+                        },
+                        IsKnownVoid: true,
+                        HasEnding:   false,
+                        data:        {
+                            "content": {Value:"width=device-width, initial-scale=1.0", IsPresent:true},
+                            "name":    {Value:"viewport", IsPresent:true},
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "title",
+                        Children: {
+                            &lexer.TextNode{Type:"TEXT", Content:"Test Simple", HasEnding:false},
+                        },
+                        IsKnownVoid: false,
+                        HasEnding:   true,
+                        data:        {
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "body",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "h1",
+                        Children: {
+                            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+                        },
+                        IsKnownVoid: false,
+                        HasEnding:   true,
+                        data:        {
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+            "lang": {Value:"en", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---
+
+[TestParseHtmlAdvanced/highly_nested_html_file - 1]
+[]lexer.Node{
+    &lexer.ElementNode{
+        Type:     "ELEMENT",
+        Tag:      "html",
+        Children: {
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "head",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "meta",
+                        Children: {
+                        },
+                        IsKnownVoid: true,
+                        HasEnding:   false,
+                        data:        {
+                            "charset": {Value:"UTF-8", IsPresent:true},
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "meta",
+                        Children: {
+                        },
+                        IsKnownVoid: true,
+                        HasEnding:   false,
+                        data:        {
+                            "content": {Value:"width=device-width, initial-scale=1.0", IsPresent:true},
+                            "name":    {Value:"viewport", IsPresent:true},
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "title",
+                        Children: {
+                            &lexer.TextNode{Type:"TEXT", Content:"Test highly nested", HasEnding:false},
+                        },
+                        IsKnownVoid: false,
+                        HasEnding:   true,
+                        data:        {
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &lexer.ElementNode{
+                Type:     "ELEMENT",
+                Tag:      "body",
+                Children: {
+                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &lexer.ElementNode{
+                        Type:     "ELEMENT",
+                        Tag:      "h1",
+                        Children: {
+                            &lexer.TextNode{Type:"TEXT", Content:"Hello world ", HasEnding:false},
+                            &lexer.ElementNode{
+                                Type:     "ELEMENT",
+                                Tag:      "p",
+                                Children: {
+                                    &lexer.TextNode{Type:"TEXT", Content:"I'm a ", HasEnding:false},
+                                    &lexer.ElementNode{
+                                        Type:     "ELEMENT",
+                                        Tag:      "b",
+                                        Children: {
+                                            !%v(DEPTH EXCEEDED),
+                                            !%v(DEPTH EXCEEDED),
+                                        },
+                                        IsKnownVoid: false,
+                                        HasEnding:   true,
+                                        data:        {
+                                        },
+                                        rwLock: sync.RWMutex{},
+                                    },
+                                },
+                                IsKnownVoid: false,
+                                HasEnding:   true,
+                                data:        {
+                                },
+                                rwLock: sync.RWMutex{},
+                            },
+                        },
+                        IsKnownVoid: false,
+                        HasEnding:   true,
+                        data:        {
+                        },
+                        rwLock: sync.RWMutex{},
+                    },
+                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                },
+                IsKnownVoid: false,
+                HasEnding:   true,
+                data:        {
+                },
+                rwLock: sync.RWMutex{},
+            },
+            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+        },
+        IsKnownVoid: false,
+        HasEnding:   true,
+        data:        {
+            "lang": {Value:"en", IsPresent:true},
+        },
+        rwLock: sync.RWMutex{},
+    },
+}
+---

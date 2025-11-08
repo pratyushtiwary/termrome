@@ -27,8 +27,8 @@ func (transitionStrategyBuilder *TransitionStrategyBuilder) CurrCharNotEq(currCh
 	return transitionStrategyBuilder
 }
 
-func (transitionStrategyBuilder *TransitionStrategyBuilder) Build() func(StateMachine, rune) bool {
-	return func(state StateMachine, currChar rune) bool {
+func (transitionStrategyBuilder *TransitionStrategyBuilder) Build() func(*StateMachine, rune) bool {
+	return func(state *StateMachine, currChar rune) bool {
 		matchingCondition := true
 
 		if len(transitionStrategyBuilder.charEq) > 0 {

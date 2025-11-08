@@ -8,6 +8,22 @@ import (
 	"termrome.io/lexer"
 )
 
+func Run(filename string) ([]lexer.Node, error) {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("Starting to parse", filename)
+	parsedContent, err := lexer.ParseHtml(string(data))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parsedContent, nil
+}
+
 func main() {
 	if len(os.Args) < 2 {
 		panic("Please provide a valid filename")
@@ -21,13 +37,15 @@ func main() {
 		panic("Please make sure file exists, error: " + err.Error())
 	}
 
-	data, err := os.ReadFile(fileName)
 	if err != nil {
-		panic(err)
+		fmt.Printf("Lexer error: %s", err.Error())
 	}
 
-	fmt.Println("Starting to parse", fileName)
-	parsedContent := lexer.ParseHtml(string(data))
+	parsedContent, err := Run(fileName)
+
+	if err != nil {
+		panic("Failed to parse html content, error: " + err.Error())
+	}
 
 	fmt.Println("File parsed successfully")
 

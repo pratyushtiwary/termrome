@@ -35,3 +35,6 @@ test.html
 
 # Output file
 output.json
+
+# Go coverage
+coverage.cov

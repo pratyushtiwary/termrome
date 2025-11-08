@@ -1,5 +1,18 @@
+.PHONY : test test-lexer
+
+all: test build
+
 build:
-	go build ./cmd/termrome
+	go build -v ./...
 
 run:
-	go run ./cmd/termrome $(FILE)
+	go run ./... $(FILE)
+
+update-snapshots:
+	UPDATE_SNAPS=true make test
+
+test:
+	go test -coverpkg=./... -coverprofile=coverage.cov ./...
+
+coverage: test
+	go tool cover -html=coverage.cov
