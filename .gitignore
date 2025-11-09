@@ -35,6 +35,7 @@ test.html
 output.json
 
 # Go coverage
-coverage.cov
+coverage.txt
+
 # Added by goreleaser init:
 dist/

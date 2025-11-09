@@ -12,7 +12,7 @@ update-snapshots:
 	UPDATE_SNAPS=true make test
 
 test:
-	go test -coverpkg=./... -coverprofile=coverage.cov ./...
+	go test -coverpkg=./... -coverprofile=coverage.txt ./...
 
 coverage: test
 	go tool cover -html=coverage.cov
