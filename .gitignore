@@ -36,3 +36,5 @@ output.json
 
 # Go coverage
 coverage.cov
+# Added by goreleaser init:
+dist/
