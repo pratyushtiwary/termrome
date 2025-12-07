@@ -15,4 +15,4 @@ test:
 	go test -coverpkg=./... -coverprofile=coverage.txt ./...
 
 coverage: test
-	go tool cover -html=coverage.cov
+	go tool cover -html=coverage.txt
