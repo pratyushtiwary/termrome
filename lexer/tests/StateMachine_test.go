@@ -4,21 +4,22 @@ import (
 	"errors"
 	"testing"
 
-	"termrome.io/lexer"
+	lexer "termrome.io/lexer"
+	html_lexer "termrome.io/lexer/html"
 )
 
 func TestStateMachine(t *testing.T) {
 	stateMachine := lexer.NewStateMachine()
 
-	fromState := lexer.SEP
-	toState := lexer.ANCHOR_START
+	fromState := html_lexer.SEP
+	toState := html_lexer.ANCHOR_START
 	expectedStateStartIdx := 10
 	expectedContextDataKey := "test"
 	expectedContextDataValue := "hello world"
 	expectedQuoteChar := '"'
 	expectedWithinQuotes := false
 
-	stateMachine.Transition(lexer.NewTransitionOption(lexer.SEP, 0))
+	stateMachine.Transition(lexer.NewTransitionOption(html_lexer.SEP, 0))
 
 	stateMachine.SetContextData(expectedContextDataKey, expectedContextDataValue)
 	stateMachine.SetQuotesState(expectedQuoteChar, expectedWithinQuotes)
@@ -78,10 +79,10 @@ func TestStateMachine(t *testing.T) {
 	}
 
 	// try with silent transition, shouldn't increase call count
-	stateMachine.Transition(lexer.NewTransitionOptionSilent(lexer.ANCHOR_END, 20))
+	stateMachine.Transition(lexer.NewTransitionOptionSilent(html_lexer.ANCHOR_END, 20))
 
 	currState = stateMachine.GetState()
-	toState = lexer.ANCHOR_END
+	toState = html_lexer.ANCHOR_END
 	expectedStateStartIdx = 20
 
 	if methodCalledCounter != 1 {
@@ -158,7 +159,7 @@ func TestOnTrasitionError(t *testing.T) {
 		return errors.New("test error")
 	}
 
-	err := stateMachine.Transition(lexer.NewTransitionOption(lexer.ANCHOR_END, 0))
+	err := stateMachine.Transition(lexer.NewTransitionOption(html_lexer.ANCHOR_END, 0))
 
 	if err == nil {
 		t.Errorf("Expected OnTransition error to bubble up via Transition")

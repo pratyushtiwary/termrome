@@ -1,20 +1,20 @@
-package lexer_test
+package html_lexer_test
 
 import (
 	"testing"
 
-	"termrome.io/lexer"
+	html_lexer "termrome.io/lexer/html"
 )
 
 func TestTextNode(t *testing.T) {
-	textNode := lexer.NewTextNode("Hello\r\nWorld")
+	textNode := html_lexer.NewTextNode("Hello\r\nWorld")
 
 	if textNode.Content != "Hello\nWorld" {
 		t.Errorf("Expected textNode's content to be Hello\nWorld, received %s instead", textNode.Content)
 	}
 
-	if textNode.Type != textNode.GetType() || textNode.GetType() != lexer.TEXT_NODE {
-		t.Errorf("Expected textNode's type to be %s, received %s instead", lexer.TEXT_NODE, textNode.Type)
+	if textNode.Type != textNode.GetType() || textNode.GetType() != html_lexer.TEXT_NODE {
+		t.Errorf("Expected textNode's type to be %s, received %s instead", html_lexer.TEXT_NODE, textNode.Type)
 	}
 
 	if textNode.HasEnding != false {
@@ -23,7 +23,7 @@ func TestTextNode(t *testing.T) {
 }
 
 func TestElementNode(t *testing.T) {
-	elementNode, err := lexer.NewElementNode("testTag")
+	elementNode, err := html_lexer.NewElementNode("testTag")
 
 	if err != nil {
 		t.Errorf("Expected elementNode to be created succesfully, received an error instead, error: %s", err.Error())
@@ -41,13 +41,13 @@ func TestElementNode(t *testing.T) {
 		t.Errorf("Expected elementNode's IsKnownVoid to be false, received %v instead", elementNode.IsKnownVoid)
 	}
 
-	if elementNode.Type != elementNode.GetType() || elementNode.GetType() != lexer.ELEMENT_NODE {
-		t.Errorf("Expected elementNode's type to be %s, received %s instead", lexer.ELEMENT_NODE, elementNode.Type)
+	if elementNode.Type != elementNode.GetType() || elementNode.GetType() != html_lexer.ELEMENT_NODE {
+		t.Errorf("Expected elementNode's type to be %s, received %s instead", html_lexer.ELEMENT_NODE, elementNode.Type)
 	}
 }
 
 func TestKnownVoidTag(t *testing.T) {
-	elementNode, err := lexer.NewElementNode("br")
+	elementNode, err := html_lexer.NewElementNode("br")
 
 	if err != nil {
 		t.Errorf("Expected elementNode to be created succesfully, received an error instead, error: %s", err.Error())
@@ -65,13 +65,13 @@ func TestKnownVoidTag(t *testing.T) {
 		t.Errorf("Expected elementNode's IsKnownVoid to be true, received %v instead", elementNode.IsKnownVoid)
 	}
 
-	if elementNode.Type != elementNode.GetType() || elementNode.GetType() != lexer.ELEMENT_NODE {
-		t.Errorf("Expected elementNode's type to be %s, received %s instead", lexer.ELEMENT_NODE, elementNode.Type)
+	if elementNode.Type != elementNode.GetType() || elementNode.GetType() != html_lexer.ELEMENT_NODE {
+		t.Errorf("Expected elementNode's type to be %s, received %s instead", html_lexer.ELEMENT_NODE, elementNode.Type)
 	}
 }
 
 func TestElementNodeShouldReturnError(t *testing.T) {
-	_, err := lexer.NewElementNode("")
+	_, err := html_lexer.NewElementNode("")
 
 	if err == nil {
 		t.Error("Expected to received error on element node creation")
@@ -79,7 +79,7 @@ func TestElementNodeShouldReturnError(t *testing.T) {
 }
 
 func TestElementNodeData(t *testing.T) {
-	elementNode, err := lexer.NewElementNode("testTag")
+	elementNode, err := html_lexer.NewElementNode("testTag")
 
 	if err != nil {
 		t.Errorf("Expected elementNode to be created succesfully, received an error instead, error: %s", err.Error())
@@ -91,7 +91,7 @@ func TestElementNodeData(t *testing.T) {
 		t.Error("Expected test to not exist in elementNode's data")
 	}
 
-	elementNode.SetData("test", lexer.Data{
+	elementNode.SetData("test", html_lexer.Data{
 		Value:     "1",
 		IsPresent: true,
 	})

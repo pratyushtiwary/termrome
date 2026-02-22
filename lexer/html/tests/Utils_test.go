@@ -1,9 +1,9 @@
-package lexer
+package html_lexer_test
 
 import (
 	"testing"
 
-	"termrome.io/lexer"
+	html_lexer "termrome.io/lexer/html"
 )
 
 func TestGetValue(t *testing.T) {
@@ -83,7 +83,7 @@ func TestGetValue(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := lexer.GetValue(tt.input, tt.startIdx, tt.endIdx, tt.quoteChar)
+			result := html_lexer.GetValue(tt.input, tt.startIdx, tt.endIdx, tt.quoteChar)
 			if result != tt.output {
 				t.Errorf("GetValue() = %q, want %q", result, tt.output)
 			}
@@ -124,7 +124,7 @@ func TestGetAttr(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := lexer.GetAttr(tt.input, tt.startIdx, tt.endIdx)
+			result := html_lexer.GetAttr(tt.input, tt.startIdx, tt.endIdx)
 			if result != tt.output {
 				t.Errorf("GetAttr() = %q, want %q", result, tt.output)
 			}
@@ -209,7 +209,7 @@ func TestRemoveQuotes(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := lexer.RemoveQuotes(tt.input, tt.quoteChar)
+			result := html_lexer.RemoveQuotes(tt.input, tt.quoteChar)
 			if result != tt.output {
 				t.Errorf("RemoveQuotes() = %q, want %q", result, tt.output)
 			}

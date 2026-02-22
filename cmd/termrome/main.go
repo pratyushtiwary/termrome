@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"os"
 
-	"termrome.io/lexer"
+	html_lexer "termrome.io/lexer/html"
 )
 
-func Run(filename string) ([]lexer.Node, error) {
+func Run(filename string) ([]html_lexer.Node, error) {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
 
 	fmt.Println("Starting to parse", filename)
-	parsedContent, err := lexer.ParseHtml(string(data))
+	parsedContent, err := html_lexer.ParseHtml(string(data))
 
 	if err != nil {
 		return nil, err
