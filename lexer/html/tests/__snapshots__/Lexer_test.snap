@@ -1,16 +1,16 @@
 
 [TestBasicParseHtml/Empty_string - 1]
-[]lexer.Node{
+[]html.Node{
 }
 ---
 
 [TestBasicParseHtml/Single_tag,_without_attrs - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -22,12 +22,12 @@
 ---
 
 [TestBasicParseHtml/Single_tag,_with_attrs - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"Test", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -42,17 +42,17 @@
 ---
 
 [TestBasicParseHtml/Nested_tags,_without_attrs - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "h1",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -71,17 +71,17 @@
 ---
 
 [TestBasicParseHtml/Nested_tags,_with_attrs - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"Test ", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "h1",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"Hello World", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -104,8 +104,8 @@
 ---
 
 [TestParseHtmlAdvanced/void_tag,_not_nested - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "img",
         Children: {
@@ -123,12 +123,12 @@
 ---
 
 [TestParseHtmlAdvanced/void_tag,_nested - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.ElementNode{
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "img",
                 Children: {
@@ -142,7 +142,7 @@
                 },
                 rwLock: sync.RWMutex{},
             },
-            &lexer.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -154,12 +154,12 @@
 ---
 
 [TestParseHtmlAdvanced/user-defined_void_tag,_not_nested - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "xyz",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:" test", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   false,
@@ -174,21 +174,21 @@
 ---
 
 [TestParseHtmlAdvanced/user-defined_void_tag,_nested - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.ElementNode{
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "xyz",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:" ", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:" ", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "abc",
                         Children: {
-                            &lexer.TextNode{Type:"TEXT", Content:"test", HasEnding:false},
+                            &html.TextNode{Type:"TEXT", Content:"test", HasEnding:false},
                         },
                         IsKnownVoid: false,
                         HasEnding:   false,
@@ -217,12 +217,12 @@
 ---
 
 [TestParseHtmlAdvanced/without_root - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "b",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -230,12 +230,12 @@
         },
         rwLock: sync.RWMutex{},
     },
-    &lexer.TextNode{Type:"TEXT", Content:"test ", HasEnding:false},
-    &lexer.ElementNode{
+    &html.TextNode{Type:"TEXT", Content:"test ", HasEnding:false},
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -247,18 +247,18 @@
 ---
 
 [TestParseHtmlAdvanced/dangling_< - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "p",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"Text ", HasEnding:false},
-            &lexer.TextNode{Type:"TEXT", Content:"<", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"Text ", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"<", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "b",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"bold", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"bold", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -277,18 +277,18 @@
 ---
 
 [TestParseHtmlAdvanced/simple_html_file - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "html",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "head",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "meta",
                         Children: {
@@ -300,8 +300,8 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "meta",
                         Children: {
@@ -314,12 +314,12 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "title",
                         Children: {
-                            &lexer.TextNode{Type:"TEXT", Content:"Test Simple", HasEnding:false},
+                            &html.TextNode{Type:"TEXT", Content:"Test Simple", HasEnding:false},
                         },
                         IsKnownVoid: false,
                         HasEnding:   true,
@@ -327,7 +327,7 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -335,17 +335,17 @@
                 },
                 rwLock: sync.RWMutex{},
             },
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "body",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "h1",
                         Children: {
-                            &lexer.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
+                            &html.TextNode{Type:"TEXT", Content:"Hello world", HasEnding:false},
                         },
                         IsKnownVoid: false,
                         HasEnding:   true,
@@ -353,7 +353,7 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -361,7 +361,7 @@
                 },
                 rwLock: sync.RWMutex{},
             },
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,
@@ -374,18 +374,18 @@
 ---
 
 [TestParseHtmlAdvanced/highly_nested_html_file - 1]
-[]lexer.Node{
-    &lexer.ElementNode{
+[]html.Node{
+    &html.ElementNode{
         Type:     "ELEMENT",
         Tag:      "html",
         Children: {
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "head",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "meta",
                         Children: {
@@ -397,8 +397,8 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "meta",
                         Children: {
@@ -411,12 +411,12 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "title",
                         Children: {
-                            &lexer.TextNode{Type:"TEXT", Content:"Test highly nested", HasEnding:false},
+                            &html.TextNode{Type:"TEXT", Content:"Test highly nested", HasEnding:false},
                         },
                         IsKnownVoid: false,
                         HasEnding:   true,
@@ -424,7 +424,7 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -432,23 +432,23 @@
                 },
                 rwLock: sync.RWMutex{},
             },
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
-            &lexer.ElementNode{
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.ElementNode{
                 Type:     "ELEMENT",
                 Tag:      "body",
                 Children: {
-                    &lexer.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
-                    &lexer.ElementNode{
+                    &html.TextNode{Type:"TEXT", Content:"\n\t", HasEnding:false},
+                    &html.ElementNode{
                         Type:     "ELEMENT",
                         Tag:      "h1",
                         Children: {
-                            &lexer.TextNode{Type:"TEXT", Content:"Hello world ", HasEnding:false},
-                            &lexer.ElementNode{
+                            &html.TextNode{Type:"TEXT", Content:"Hello world ", HasEnding:false},
+                            &html.ElementNode{
                                 Type:     "ELEMENT",
                                 Tag:      "p",
                                 Children: {
-                                    &lexer.TextNode{Type:"TEXT", Content:"I'm a ", HasEnding:false},
-                                    &lexer.ElementNode{
+                                    &html.TextNode{Type:"TEXT", Content:"I'm a ", HasEnding:false},
+                                    &html.ElementNode{
                                         Type:     "ELEMENT",
                                         Tag:      "b",
                                         Children: {
@@ -475,7 +475,7 @@
                         },
                         rwLock: sync.RWMutex{},
                     },
-                    &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+                    &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
                 },
                 IsKnownVoid: false,
                 HasEnding:   true,
@@ -483,7 +483,7 @@
                 },
                 rwLock: sync.RWMutex{},
             },
-            &lexer.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
+            &html.TextNode{Type:"TEXT", Content:"\n", HasEnding:false},
         },
         IsKnownVoid: false,
         HasEnding:   true,

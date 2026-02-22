@@ -1,16 +1,18 @@
-package lexer
+package html
 
 import (
 	"fmt"
+
+	lexer "termrome.io/lexer"
 )
 
-func handleRecovery(stateMachine *StateMachine) error {
+func handleRecovery(stateMachine *lexer.StateMachine) error {
 	stateStartIdx := stateMachine.GetStateStartIdx()
-	return stateMachine.Transition(TransitionOptions{
-		newState:      CONTENT,
-		stateStartIdx: stateStartIdx - 1, // -1 to take < into account for content as well
-		silent:        true,
-	})
+	return stateMachine.Transition(lexer.NewTransitionOptions(
+		CONTENT,
+		stateStartIdx-1, // -1 to take < into account for content as well
+		true,
+	))
 }
 
 func ParseHtml(inputString string) ([]Node, error) {
@@ -18,7 +20,7 @@ func ParseHtml(inputString string) ([]Node, error) {
 
 	tagStack := make([]*ElementNode, 0)
 	nodes := make([]Node, 0)
-	stateMachine := NewStateMachine()
+	stateMachine := lexer.NewStateMachine()
 
 	popTagStack := func() *ElementNode {
 		var node *ElementNode
@@ -30,13 +32,13 @@ func ParseHtml(inputString string) ([]Node, error) {
 		return node
 	}
 
-	stateMachine.Transition(TransitionOptions{
-		newState:      CONTENT,
-		stateStartIdx: 0,
-		silent:        true,
-	})
+	stateMachine.Transition(lexer.NewTransitionOptions(
+		CONTENT,
+		0,
+		true,
+	))
 
-	stateMachine.OnTransition = func(oldState, newState Token, stateStartIdx int) error {
+	stateMachine.OnTransition = func(oldState, newState lexer.Token, stateStartIdx int) error {
 		if newState == CONTENT && inputString[stateStartIdx-1] == byte(ANCHOR_END.GetChar()) && len(tagStack) > 0 {
 			currNode := tagStack[len(tagStack)-1]
 
@@ -78,11 +80,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 
 		// anchor start logic
 		if IsAnchorStart(&stateMachine, currChar) {
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      ANCHOR_START,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				ANCHOR_START,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -91,11 +93,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 		}
 
 		if IsAnchorEndChar(&stateMachine, currChar) {
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      END_CHAR,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				END_CHAR,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -104,11 +106,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 		}
 
 		if IsTagNameStart(&stateMachine, currChar) {
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      TAG,
-				stateStartIdx: currCharIdx,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				TAG,
+				currCharIdx,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -124,11 +126,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 				return nil, err
 			}
 
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      CONTENT,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				CONTENT,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -162,11 +164,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 			} else if node != nil {
 				nodes = append(nodes, node)
 			}
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      CONTENT,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				CONTENT,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -190,11 +192,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 				nextState = CONTENT
 			}
 
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      nextState,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				nextState,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -210,11 +212,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 			)
 
 			if currChar == ANCHOR_END.GetChar() && attrName == "" {
-				err = stateMachine.Transition(TransitionOptions{
-					newState:      CONTENT,
-					stateStartIdx: currCharIdx + 1,
-					silent:        false,
-				})
+				err = stateMachine.Transition(lexer.NewTransitionOptions(
+					CONTENT,
+					currCharIdx+1,
+					false,
+				))
 
 				if err != nil {
 					return nil, err
@@ -240,11 +242,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 				nextState = ATTR
 			}
 
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      nextState,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				nextState,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -258,11 +260,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 			caretIdx := currCharIdx
 
 			if currChar == ANCHOR_END.GetChar() {
-				err = stateMachine.Transition(TransitionOptions{
-					newState:      CONTENT,
-					stateStartIdx: currCharIdx + 1,
-					silent:        false,
-				})
+				err = stateMachine.Transition(lexer.NewTransitionOptions(
+					CONTENT,
+					currCharIdx+1,
+					false,
+				))
 
 				if err != nil {
 					return nil, err
@@ -274,11 +276,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 				stateMachine.SetQuotesState(quoteChar, true)
 				caretIdx += 1
 			}
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      VALUE,
-				stateStartIdx: caretIdx,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				VALUE,
+				caretIdx,
+				false,
+			))
 
 			if err != nil {
 				return nil, err
@@ -331,11 +333,11 @@ func ParseHtml(inputString string) ([]Node, error) {
 				nextState = CONTENT
 			}
 
-			err = stateMachine.Transition(TransitionOptions{
-				newState:      nextState,
-				stateStartIdx: currCharIdx + 1,
-				silent:        false,
-			})
+			err = stateMachine.Transition(lexer.NewTransitionOptions(
+				nextState,
+				currCharIdx+1,
+				false,
+			))
 
 			if err != nil {
 				return nil, err

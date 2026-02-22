@@ -1,10 +1,10 @@
-package lexer_test
+package html_lexer_test
 
 import (
 	"testing"
 
 	"github.com/gkampitakis/go-snaps/snaps"
-	"termrome.io/lexer"
+	html_lexer "termrome.io/lexer/html"
 )
 
 func TestBasicParseHtml(t *testing.T) {
@@ -36,7 +36,7 @@ func TestBasicParseHtml(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.title, func(t *testing.T) {
-			result, err := lexer.ParseHtml(tt.input)
+			result, err := html_lexer.ParseHtml(tt.input)
 			if err != nil {
 				t.Errorf("Expected nodes array received %s error instead", err.Error())
 				return
@@ -105,7 +105,7 @@ func TestParseHtmlAdvanced(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.title, func(t *testing.T) {
-			result, err := lexer.ParseHtml(tt.input)
+			result, err := html_lexer.ParseHtml(tt.input)
 			if err != nil {
 				t.Fatalf("ParseHtml() error = %v", err)
 			}

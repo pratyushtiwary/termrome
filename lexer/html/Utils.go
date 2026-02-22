@@ -1,61 +1,65 @@
-package lexer
+package html
 
-import "strings"
+import (
+	"strings"
+
+	lexer "termrome.io/lexer"
+)
 
 // recovery checkers
-var RequiresTagStartRecovery = NewTransitionStrategyBuilder().
+var RequiresTagStartRecovery = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ANCHOR_START).
-	CurrCharEq(SEP.char, END_CHAR.char, ANCHOR_END.char, ANCHOR_START.char).
+	CurrCharEq(SEP.GetChar(), END_CHAR.GetChar(), ANCHOR_END.GetChar(), ANCHOR_START.GetChar()).
 	Build()
 
-var RequiresAttrRecovery = NewTransitionStrategyBuilder().
+var RequiresAttrRecovery = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ATTR_SEP).
-	CurrCharEq(SEP.char).
+	CurrCharEq(SEP.GetChar()).
 	Build()
 
 // normal checkers
-var IsAnchorStart = NewTransitionStrategyBuilder().
-	CurrCharEq(ANCHOR_START.char).
+var IsAnchorStart = lexer.NewTransitionStrategyBuilder().
+	CurrCharEq(ANCHOR_START.GetChar()).
 	Build()
 
-var IsAnchorEndChar = NewTransitionStrategyBuilder().
+var IsAnchorEndChar = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ANCHOR_START).
-	CurrCharEq(END_CHAR.char).
+	CurrCharEq(END_CHAR.GetChar()).
 	Build()
 
-var IsTagNameStart = NewTransitionStrategyBuilder().
+var IsTagNameStart = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ANCHOR_START).
-	CurrCharNotEq(SEP.char, END_CHAR.char, ANCHOR_END.char, ANCHOR_START.char).
+	CurrCharNotEq(SEP.GetChar(), END_CHAR.GetChar(), ANCHOR_END.GetChar(), ANCHOR_START.GetChar()).
 	Build()
 
-var IsAnchorTagEnd = NewTransitionStrategyBuilder().
+var IsAnchorTagEnd = lexer.NewTransitionStrategyBuilder().
 	StateEq(&END_CHAR).
-	CurrCharEq(ANCHOR_END.char).
+	CurrCharEq(ANCHOR_END.GetChar()).
 	Build()
 
-var IsAttrStart = NewTransitionStrategyBuilder().
+var IsAttrStart = lexer.NewTransitionStrategyBuilder().
 	StateEq(&TAG).
-	CurrCharEq(SEP.char, ANCHOR_END.char).
+	CurrCharEq(SEP.GetChar(), ANCHOR_END.GetChar()).
 	Build()
 
-var IsValueStart = NewTransitionStrategyBuilder().
+var IsValueStart = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ATTR).
 	CurrCharEq(
-		ANCHOR_END.char,
-		ATTR_SEP.char,
-		SEP.char,
-		DOUBLE_QUOTE.char,
-		SINGLE_QUOTE.char,
+		ANCHOR_END.GetChar(),
+		ATTR_SEP.GetChar(),
+		SEP.GetChar(),
+		DOUBLE_QUOTE.GetChar(),
+		SINGLE_QUOTE.GetChar(),
 	).
 	Build()
 
-var IsAttrSep = NewTransitionStrategyBuilder().
+var IsAttrSep = lexer.NewTransitionStrategyBuilder().
 	StateEq(&ATTR_SEP).
 	Build()
 
-var IsValueEnd = NewTransitionStrategyBuilder().
+var IsValueEnd = lexer.NewTransitionStrategyBuilder().
 	StateEq(&VALUE).
-	CurrCharEq(SEP.char, ANCHOR_END.char, DOUBLE_QUOTE.char, SINGLE_QUOTE.char).
+	CurrCharEq(SEP.GetChar(), ANCHOR_END.GetChar(), DOUBLE_QUOTE.GetChar(), SINGLE_QUOTE.GetChar()).
 	Build()
 
 func RemoveQuotes(inputString string, quoteChar *rune) string {

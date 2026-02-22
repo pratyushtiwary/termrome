@@ -25,6 +25,14 @@ type TransitionOptions struct {
 
 // methods
 
+func NewTransitionOptions(newState Token, stateStartIdx int, silent bool) TransitionOptions {
+	return TransitionOptions{
+		newState:      newState,
+		stateStartIdx: stateStartIdx,
+		silent:        silent,
+	}
+}
+
 // QuotesState
 func (quotesState *QuotesState) GetQuoteChar() *rune {
 	return quotesState.quoteChar
